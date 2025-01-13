@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Bosh sahifa{% endblock title %}
+    {% block content %}
+    <div class="jumbotron">
+        <h1 class="display-4">Herkese selam !!!</h1>
+        <p class="lead">Siteme hoş geldiniz.</p>
+        <hr class="my-4">
+        <p>En son haberleri buradan okuyabilirsiniz.</p>
+        <p class-"lead">
+            <a class="btn btn-primary btn-lg" href="{% url 'article_list' %}" role="button">Haberleri gör</a>
+        </p>
+    </div>
+{% endblock content %}
