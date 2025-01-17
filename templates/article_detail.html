@@ -2,36 +2,49 @@
 
 {% block content %}
     <div class="container-fluid">
-        <div class="card">
+        <div class="card mb-4">
             <div class="card-body">
                 {% if object.image %}
-                    <img class="card-img-top" src="{{ object.image.url }}" alt="{{ object.title }}">
+                    <img class="card-img-top mb-3" src="{{ object.image.url }}" alt="{{ object.title }}">
                 {% endif %}
                 <h1 class="card-title">{{ object.title }}</h1>
                 <h6 class="card-subtitle mb-2 text-muted">
                     Muallif: {{ object.author }} | {{ object.date }}
                 </h6>
                 <p class="card-text">{{ object.body | safe }}</p>
-                <a href="{% url 'article_edit' object.pk %}" class="btn btn-outline-primary">Tahrirlash</a>
-                <a href="{% url 'article_delete' object.pk %}" class="btn btn-outline-danger">O'chirish</a>
-                <a href="{% url 'article_list' %}" class="btn btn-outline-secondary">Barcha postlar</a>
+                <div class="mt-3">
+                    <a href="{% url 'article_edit' object.pk %}" class="btn btn-outline-primary">Tahrirlash</a>
+                    <a href="{% url 'article_delete' object.pk %}" class="btn btn-outline-danger">O'chirish</a>
+                    <a href="{% url 'article_list' %}" class="btn btn-outline-secondary">Barcha postlar</a>
+                </div>
             </div>
         </div>
 
         <div class="card">
             <div class="card-header">Izohlar</div>
-            {% for comment in object.comments.all %}
-                <div class="card-body">
-                    <blockquote class="blockquote mb-0">
-                        <p>{{ comment }}</p>
-                        <footer class="blockquote-footer">{{ comment.author }}</footer>
-                    </blockquote>
-                </div>
-            {% empty %}
+            <div class="card-body">
+                <h2>Yeni Yorum Ekle</h2>
+                <form action="{% url 'comment_new' object.pk %}" method="post">
+                    {% csrf_token %}
+                    <textarea name="comment" id="id_comment" rows="2" style="resize: none; width: 100%"></textarea>
+                    <button type="submit" class="btn btn-primary">Yorum Ekle</button>
+                </form>
+            </div>
+
+            {% if object.comments.all %}
+                {% for comment in object.comments.all %}
+                    <div class="card-body">
+                        <blockquote class="blockquote mb-0">
+                            <p>{{ comment }}</p>
+                            <footer class="blockquote-footer">{{ comment.author }}</footer>
+                        </blockquote>
+                    </div>
+                {% endfor %}
+            {% else %}
                 <div class="card-body">
                     <p class="text-muted">Izohlar mavjud emas.</p>
                 </div>
-            {% endfor %}
+            {% endif %}
         </div>
     </div>
 {% endblock %}

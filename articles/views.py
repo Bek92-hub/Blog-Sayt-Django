@@ -2,8 +2,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import UpdateView, DeleteView, CreateView
 from django.urls import reverse_lazy
+from .forms import CommentForm 
 
-from .models import Article
+from .models import Article,Comment
 # Create your views here.
 
 class ArticleListView(ListView):
@@ -47,3 +48,6 @@ class ArticleCreateView(LoginRequiredMixin,UserPassesTestMixin,CreateView):
 
 
 
+class CommentCreateView(CreateView):
+    model = Comment
+    form_class = CommentForm 
